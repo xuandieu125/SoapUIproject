@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="5817b354-fa53-4cf9-9ca6-adb1fc09b973" activeEnvironment="Default" name="DemoapiCreate" resourceRoot="" soapui-version="5.7.2" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="TestSuite" value="TestSuite 1"/>
+  <con:entry key="Endpoint" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Export JUnit Results with test properties" value="false"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="TestCase" value="TestCase 1"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Save Project" value="false"/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:RestService" id="18555fea-1cb5-4705-a613-b2d7515d8c66" wadlVersion="http://wadl.dev.java.net/2009/02" name="https://restful-booker.herokuapp.com" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>https://restful-booker.herokuapp.com</con:endpoint></con:endpoints><con:resource name="Booking" path="/booking" id="9d9e4c47-0367-43f9-879a-886cc0b49418"><con:settings/><con:parameters><con:parameter><con:name>Content-Type</con:name><con:value/><con:style>HEADER</con:style><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>Accept</con:name><con:value/><con:style>HEADER</con:style><con:default/><con:description xsi:nil="true"/></con:parameter></con:parameters><con:method name="Create" id="1600ac12-0a7e-4b2b-b9bb-f1a443a7c459" method="POST"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/plain; charset=utf-8</con:mediaType><con:status>500 400 418</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json; charset=utf-8</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:request name="Request 1" id="d487e469-ef04-4ab1-923c-18f7e0dfec82" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>https://restful-booker.herokuapp.com</con:endpoint><con:request/><con:originalUri>https://restful-booker.herokuapp.com/booking</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="Accept" value="application/json"/>
+  <con:entry key="Content-Type" value="application/json"/>
+</con:parameters><con:parameterOrder><con:entry>Content-Type</con:entry><con:entry>Accept</con:entry></con:parameterOrder></con:request></con:method></con:resource></con:interface><con:testSuite id="311b5b58-f428-4790-8ade-b0b371c8050f" name="TestSuite 1"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="1478be07-d7b9-4baa-b73e-34c3b39b930a" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="groovy" name="Groovy Script" id="5a77af5e-8154-42be-9eb5-72de4cfa0778"><con:settings/><con:config><script>import groovy.util.*
+import groovy.json.JsonSlurper 
+// import thư viện, JsonSlurper phân tích chuỗi JSON
+
+def groovyUtils = new com.eviware.soapui.support.GroovyUtils(context)
+// tạo 1 đối tượng groovyUtils từ context của SoapUI, lấy thông tin 
+def projectData= groovyUtils.projectPath
+// lấy đường dẫn của project hiện tại
+File file = new File (projectData)
+
+def firstLevelDir = file.getParent() 
+// log.info firstLevelDir
+
+def filePath = firstLevelDir + "\\SOAPUI\\DataSOAP.csv" //  đường dẫn đến file tệp
+// log.info filePath
+context.fileReader = new BufferedReader(new FileReader(filePath)) // tạo 1 BufferedReader để đọc dữ liệu
+rows = context.fileReader.readLines() //đọc tất cả dòng tệp
+int n = rows.size() 
+// log.info n
+
+for(int i = 1; i &lt; n; i++) {
+	row = rows[i] // lấy từng dòng
+	String[] data = row.split(",")  // tách dòng thành các phần tử dựa trên dấu phẩy
+ //log.info row
+//Set the property value
+  testRunner.testCase.getTestStepByName("Properties").setPropertyValue("Firstname", data[0])
+  testRunner.testCase.getTestStepByName("Properties").setPropertyValue("Lastname", data[1])
+  testRunner.testCase.getTestStepByName("Properties").setPropertyValue("Totalprice", data[2])
+  testRunner.testCase.getTestStepByName("Properties").setPropertyValue("Checkin", data[3])
+// run the step
+ testRunner.runTestStepByName("REST Request") //  Thực hiện TestStep
+ res = context.expand('${REST Request#Response}') //  lấy kết quả phản hồi từ bước trên
+ obj = new JsonSlurper().parseText(res) // chuỗi JSON và chuyển đổi nó thành một đối tượng Groovy (obj)
+ //log.info obj
+ 
+ assert obj.booking.firstname == data[0] // Kiểm tra giá trị firstname trong kết quả phản hồi có khớp với giá trị data[0].
+ assert obj.booking.lastname == data[1]
+ assert obj.booking.totalprice == data[2].toInteger()
+ assert obj.booking.bookingdates.checkin == data[3]	 
+}
+
+
+</script></con:config></con:testStep><con:testStep type="properties" name="Properties" id="f657e611-d533-412f-b9bd-4219c2040e9c"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>Firstname</con:name><con:value>Hoa</con:value></con:property><con:property><con:name>Lastname</con:name><con:value>Tran</con:value></con:property><con:property><con:name>Totalprice</con:name><con:value>245</con:value></con:property><con:property><con:name>Checkin</con:name><con:value>2024-12-13</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="restrequest" name="REST Request" id="b4735a4f-dbf2-4c5b-8858-38dd3786fa29" disabled="true"><con:settings/><con:config service="https://restful-booker.herokuapp.com" methodName="Create" resourcePath="/booking" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="REST Request" id="67d3cb1b-a5b5-4d45-8237-a73ea9d0f153" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://restful-booker.herokuapp.com</con:endpoint><con:request>{
+    "firstname" :  "${Properties#Firstname}",
+    "lastname" : "${Properties#Lastname}",
+    "totalprice" : "${Properties#Totalprice}",
+    "depositpaid" : true,
+    "bookingdates" : {
+        "checkin" :"${Properties#Checkin}",
+        "checkout" : "2024-12-30"
+    },
+    "additionalneeds" : "Breakfast"
+}</con:request><con:originalUri>https://restful-booker.herokuapp.com/booking</con:originalUri><con:assertion type="Valid HTTP Status Codes" id="91b73011-c96c-4f12-aba1-974e38ff1b7b" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Simple NotContains" id="aa12c124-d3e9-4a86-bd28-7fe759f5f497" name="Not Contains"><con:configuration><token>Minh</token><ignoreCase>true</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="Accept" value="application/json"/>
+  <con:entry key="Content-Type" value="application/json"/>
+</con:parameters></con:restRequest></con:config></con:testStep><con:tearDownScript>try {
+      String folderPath = "D:/SOAPUI" + "/SoapUIResults";
+      def resultFolder = new File(folderPath);
+      if(!resultFolder.exists())
+      {
+        resultFolder.mkdirs();
+      }
+      Date d = new Date();
+      def executionDate = d.format("dd-MMM-yyyy HH_mm");
+      String subfolderPath1 = folderPath+ "/Request-Response_"+executionDate;
+      new File(subfolderPath1).mkdirs();
+      String subfolderPath2 = folderPath+ "/CSV Reports";
+      new File(subfolderPath2).mkdirs();
+      def reportFile = new File(subfolderPath2, "Report_"+executionDate+".csv");
+      if(!reportFile.exists())
+      {
+        reportFile.createNewFile();
+        reportFile.write('"Test_Suite","Test_Case","Test_Step","Step1_Type","Status",'
+                        +'"Result message","Execution_Date"');
+      }
+
+  for(stepResult in testRunner.getResults())
+  {
+   def testSuite = testRunner.testCase.testSuite.name;
+   def testCase = testRunner.testCase.name;
+   def testStep = stepResult.getTestStep();
+   def testStepName = testStep.name
+   def type = testStep.config.type
+   def status = stepResult.getStatus()
+   reportFile.append('\n');
+   reportFile.append('"' + testSuite + '",');
+   reportFile.append('"' + testCase + '",');
+   reportFile.append('"' + testStepName + '",');
+   reportFile.append('"' + type + '",');
+   reportFile.append('"' + status + '",');
+   reportFile.append('"');
+   for(resMessage in stepResult.getMessages())
+   {
+     reportFile.append('Message:' + resMessage + '\n');
+   }
+   reportFile.append('",');
+   reportFile.append('"' + executionDate + '",');
+
+        if((type=="request").or(type=="restrequest"))
+        {
+          def extRequest = testStep.properties["Request"].value;    
+      def requestFile=subfolderPath1+"/request_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rqfile = new File(requestFile);
+      rqfile.write(extRequest, "UTF-8");
+      def extResponse = stepResult.getResponseContent();    
+      def responseFile=subfolderPath1+"/response_"+testSuite+"_"+testCase+"_"+testStepName+".txt";
+      def rsfile = new File(responseFile);
+      rsfile.write(extResponse, "UTF-8");
+     }
+   }
+ }
+catch(exc)
+{
+   log.error("Exception happened: " + exc.toString());
+}</con:tearDownScript><con:properties/></con:testCase><con:properties/><con:setupScript>testRunner.testCase.testSuite.project.testSuites["Report"].testCases["Report1"].
+testSteps["Reportcsv"].run(testRunner, context);</con:setupScript></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
